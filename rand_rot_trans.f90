@@ -12,23 +12,18 @@ function check_minimal_distance_acceptable(mol1, mol2, lower_thres, higher_thres
     integer(kind=4) :: i, j
     real(kind=8) :: curr_dist, min_dist
 
+    check_minimal_distance_acceptable = .false.
     min_dist = dsqrt(sum((mol1%atom_coords(:, 1) - mol2%atom_coords(:, 1)) ** 2))
     do i = 1, mol1%num_atoms
         do j = 1, mol2%num_atoms
             curr_dist = dsqrt(sum((mol1%atom_coords(:, i) - mol2%atom_coords(:, j)) ** 2))
             if (curr_dist .le. min_dist) then
                 min_dist = curr_dist
-                if (min_dist .lt. lower_thres) then
-                    check_minimal_distance_acceptable = .false.
-                    return
-                end if
+                if (min_dist .lt. lower_thres) return
             end if
         end do
     end do
-    if ((min_dist .lt. lower_thres) .or. (min_dist .gt. higher_thres)) then
-        check_minimal_distance_acceptable = .false.
-        return
-    end if
+    if ((min_dist .lt. lower_thres) .or. (min_dist .gt. higher_thres)) return
     check_minimal_distance_acceptable = .true.
     return
 end function check_minimal_distance_acceptable
