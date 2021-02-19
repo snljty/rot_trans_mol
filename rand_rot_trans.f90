@@ -33,17 +33,38 @@ program main
     use progress_bar_module
     ! use ieee_arithmetic
     implicit none
+    integer(kind=4) :: argc
+    character(kind=1,len=512) :: argv0
+    character(kind=1,len=256), allocatable :: argv(:)
+    integer(kind=4) :: arg_status
     character(kind=1,len=256) :: ifile_name, ofile_name
     type(molecule) :: mol_in, mol_out, mol_tmp
     integer(kind=4) :: write_to_unit
     integer(kind=4) :: write_file_status
     integer(kind=4) :: num_gene
     integer(kind=4) :: tried
-    integer(kind=4), parameter :: max_gene = 100
+    integer(kind=4) :: max_gene = 100
     real(kind=8) :: time_start, time_end
     ! real(kind=8), parameter :: trans_min_len = 0.0D0, trans_max_len = 8.0D0
     integer(kind=4) :: i, j
     logical(kind=1), external :: check_minimal_distance_acceptable
+
+    ! get command arguments, not that argv needs to be freed at the end of the program.
+    argc = command_argument_count()
+    call get_command_argument(0, argv0, arg_status)
+    if (argc .gt. 0) then
+        allocate(argv(argc))
+        do i = 1, argc
+            call get_command_argument(i, argv(i), arg_status)
+        end do
+    end if
+
+    ! currently only uses the first argument as max_gene.
+    if (argc .ge. 1) then
+        read(argv(1), *) max_gene
+    else
+        max_gene = 100
+    end if
 
     call random_seed()
     call cpu_time(time_start)
@@ -95,6 +116,8 @@ program main
     call destroy_molecule(mol_out)
 
     call cpu_time(time_end)
+
+    if (argc .gt. 0) deallocate(argv)
 
     write(*, '(a,f8.1,a)') 'Time elapsed: ', (time_end - time_start), ' s.'
 
