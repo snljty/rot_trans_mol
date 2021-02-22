@@ -31,6 +31,7 @@ end function check_minimal_distance_acceptable
 program main
     use molecule_module
     use progress_bar_module
+    use rand_init_module
     ! use ieee_arithmetic
     implicit none
     integer(kind=4) :: argc
@@ -66,7 +67,9 @@ program main
         max_gene = 100
     end if
 
-    call random_seed()
+    ! something likes "call random_seed()"
+    call random_init()
+
     call cpu_time(time_start)
 
     ! write(*, '(A)') 'Input file name for reading: '
