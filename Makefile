@@ -1,5 +1,6 @@
 # Makefile
 
+SHELL = cmd
 FC = gfortran
 FLINKER = $(FC)
 ARCH = ar
