@@ -68,7 +68,7 @@ program main
     end if
 
     ! something likes "call random_seed()"
-    call random_init()
+    call random_init_seed()
 
     call cpu_time(time_start)
 

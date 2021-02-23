@@ -4,7 +4,7 @@ module rand_init_module
 
     contains
 
-    subroutine random_init()
+    subroutine random_init_seed()
         implicit none
         integer(kind=4) :: rand_seed_size
         integer(kind=4), allocatable :: rand_seed(:)
@@ -19,6 +19,6 @@ module rand_init_module
         deallocate(rand_seed)
 
         return
-    end subroutine random_init
+    end subroutine random_init_seed
 end module rand_init_module
 
