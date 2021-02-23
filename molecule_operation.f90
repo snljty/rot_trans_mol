@@ -204,21 +204,6 @@ module molecule_module
         return
     end subroutine duplicate_molecule_full_info
 
-    subroutine rotate_vector(vec, rot)
-        use quaternion_module
-        implicit none
-        real(kind=8), intent(inout) :: vec(3)
-        type(quaternion), intent(in) :: rot
-        type(quaternion) :: t
-
-        t%re = 0.0D0
-        t%im = vec
-        t = rot * t * quaternion_conjugate(rot)
-        vec = t%im
-
-        return
-    end subroutine rotate_vector
-
     subroutine rotate_molecule(mol, axis_x, axis_y, axis_z, angle)
         use quaternion_module
         implicit none

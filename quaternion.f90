@@ -163,43 +163,57 @@ module quaternion_module
         return
     end function quaternion_rotator
 
-function vector_random_normal() result(ret)
-    ! Note: random_seed() must be called once before calling this function!
-    implicit none
-    real(kind=8), dimension(3) :: ret
-    real(kind=8) :: t1, t2
-    real(kind=8) :: t0
+    function vector_random_normal() result(ret)
+        ! Note: random_seed() must be called once before calling this function!
+        implicit none
+        real(kind=8), dimension(3) :: ret
+        real(kind=8) :: t1, t2
+        real(kind=8) :: t0
 
-    do while(.true.)
-        call random_number(t1)
-        call random_number(t2)
-        t1 = 2 * t1 - 1.0D0
-        t2 = 2 * t2 - 1.0D0
-        t0 = t1 ** 2 + t2 ** 2
-        if (t0 .lt. 1.0D0) exit
-    end do
-    ret(1) = 2.0D0 * t1 * dsqrt(1.0D0 - t0)
-    ret(2) = 2.0D0 * t2 * dsqrt(1.0D0 - t0)
-    ret(3) = 1.0D0 - 2.0D0 * t0
+        do while(.true.)
+            call random_number(t1)
+            call random_number(t2)
+            t1 = 2 * t1 - 1.0D0
+            t2 = 2 * t2 - 1.0D0
+            t0 = t1 ** 2 + t2 ** 2
+            if (t0 .lt. 1.0D0) exit
+        end do
+        ret(1) = 2.0D0 * t1 * dsqrt(1.0D0 - t0)
+        ret(2) = 2.0D0 * t2 * dsqrt(1.0D0 - t0)
+        ret(3) = 1.0D0 - 2.0D0 * t0
 
-    return
-end function vector_random_normal
+        return
+    end function vector_random_normal
 
-type(quaternion) function quaternion_random_rotator()
-    ! Note: random_seed() must be called once before calling this function!
-    implicit none
-    real(kind=8) :: t
-    real(kind=8), parameter :: PI = 3.14159265358979323846
+    type(quaternion) function quaternion_random_rotator()
+        ! Note: random_seed() must be called once before calling this function!
+        implicit none
+        real(kind=8) :: t
+        real(kind=8), parameter :: PI = 3.14159265358979323846
 
-    quaternion_random_rotator%im = vector_random_normal()
-    call random_number(t)
-    t = t * PI
-    ! t = theta / 2, theta from 0 to 2 * PI, t from 0 to PI
-    quaternion_random_rotator%re = dcos(t)
-    quaternion_random_rotator%im = quaternion_random_rotator%im * dsin(t)
+        quaternion_random_rotator%im = vector_random_normal()
+        call random_number(t)
+        t = t * PI
+        ! t = theta / 2, theta from 0 to 2 * PI, t from 0 to PI
+        quaternion_random_rotator%re = dcos(t)
+        quaternion_random_rotator%im = quaternion_random_rotator%im * dsin(t)
 
-    return
-end function quaternion_random_rotator
+        return
+    end function quaternion_random_rotator
+
+    subroutine rotate_vector(vec, rot)
+        implicit none
+        real(kind=8), intent(inout) :: vec(3)
+        type(quaternion), intent(in) :: rot
+        type(quaternion) :: t
+
+        t%re = 0.0D0
+        t%im = vec
+        t = rot * t * quaternion_conjugate(rot)
+        vec = t%im
+
+        return
+    end subroutine rotate_vector
 
 end module quaternion_module
 
