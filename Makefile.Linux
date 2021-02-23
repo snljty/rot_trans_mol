@@ -1,0 +1,65 @@
+# Makefile
+
+SHELL = /bin/bash
+FC = gfortran
+FLINKER = $(FC)
+ARCH = ar
+ARCH_FLAGS = -rsc
+DYN_LINK_FLAGS = -fPIC -shared
+
+.PHONY: all
+
+all: rand_rot_trans
+
+.PHONY: rand_rot_trans
+
+rand_rot_trans: rand_rot_trans.x
+
+rand_rot_trans.x: rand_rot_trans.o molecule_operation.o quaternion.o progress_bar.o rand_init.o
+	@echo Linking $@ ...
+	$(FLINKER) -o $@ $^
+
+rand_rot_trans.o: rand_rot_trans.f90 molecule_module.mod \
+quaternion_module.mod progress_bar_module.mod rand_init_module.mod
+	@echo Compiling $@ ...
+	# $(FC) -o $@ -fno-realloc-lhs -c $<
+	$(FC) -o $@ -c $<
+
+molecule_module.mod: molecule_operation.o
+
+molecule_operation.o: molecule_operation.f90 quaternion_module.mod
+	@echo Compiling $@ ...
+	$(FC) -o $@ -c $<
+
+quaternion_module.mod: quaternion.o
+
+quaternion.o: quaternion.f90
+	@echo Compiling $@ ...
+	$(FC) -o $@ -c $<
+
+progress_bar_module.mod: progress_bar.o
+
+progress_bar.o: progress_bar.f90
+	@echo Compiling $@ ...
+	$(FC) -o $@ -c $<
+
+rand_init_module.mod: rand_init.o
+
+rand_init.o: rand_init.f90
+	@echo Compiling $@ ...
+	$(FC) -o $@ -c $<
+
+.PHONY: clean
+
+clean: clean_tmp
+	-rm rand_rot_trans.x 2> /dev/null
+
+.PHONY: clean_tmp
+
+clean_tmp:
+	-rm rand_init_module.mod rand_init.o 2> /dev/null
+	-rm progress_bar_module.mod progress_bar.o 2> /dev/null
+	-rm quaternion_module.mod quaternion.o 2> /dev/null
+	-rm molecule_module.mod molecule_operation.o 2> /dev/null
+	-rm rand_rot_trans.o 2> /dev/null
+
