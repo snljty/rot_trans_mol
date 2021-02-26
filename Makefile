@@ -15,7 +15,8 @@ all: rand_rot_trans
 
 rand_rot_trans: rand_rot_trans.exe
 
-rand_rot_trans.exe: rand_rot_trans.o molecule_operation.o quaternion.o progress_bar.o rand_init.o
+rand_rot_trans.exe: rand_rot_trans.o molecule_operation.o quaternion.o \
+vector_operation.o progress_bar.o rand_init.o
 	@echo Linking $@ ...
 	$(FLINKER) -o $@ $^
 
@@ -33,7 +34,13 @@ molecule_operation.o: molecule_operation.f90 quaternion_module.mod
 
 quaternion_module.mod: quaternion.o
 
-quaternion.o: quaternion.f90
+quaternion.o: quaternion.f90 vector_operation_module.mod
+	@echo Compiling $@ ...
+	$(FC) -o $@ -c $<
+
+vector_operation_module.mod: vector_operation.o
+
+vector_operation.o: vector_operation.f90
 	@echo Compiling $@ ...
 	$(FC) -o $@ -c $<
 
@@ -60,6 +67,7 @@ clean_tmp:
 	-del rand_init_module.mod rand_init.o 1> NUL 2> NUL
 	-del progress_bar_module.mod progress_bar.o 1> NUL 2> NUL
 	-del quaternion_module.mod quaternion.o 1> NUL 2> NUL
+	-del vector_operation_module.mod vector_operation.o 1> NUL 2> NUL
 	-del molecule_module.mod molecule_operation.o 1> NUL 2> NUL
 	-del rand_rot_trans.o 1> NUL 2> NUL
 
