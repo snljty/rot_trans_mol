@@ -241,6 +241,53 @@ module molecule_module
         return
     end subroutine rotate_molecule_random
 
+    subroutine rotate_molecule_zyx(mol, rot_x, rot_y, rot_z)
+        ! Note: the sequence is important! 
+        ! Rotate in different sequences will result in different results,
+        ! even if the angles corresponding to each axes are not changed.
+        use quaternion_module
+        use vector_operation_module
+        implicit none
+        type(molecule), intent(inout) :: mol
+        real(kind=8), intent(in) :: rot_x, rot_y, rot_z
+        integer(kind=4) :: i
+
+        do i = 1, mol%num_atoms
+            mol%atom_coords(:, i) = vector_rotate_by_x( &
+                                    vector_rotate_by_y( &
+                                    vector_rotate_by_z( mol%atom_coords(:, i), rot_z), &
+                                                                               rot_y), &
+                                                                               rot_x)
+        end do
+
+        return
+    end subroutine rotate_molecule_zyx
+
+    subroutine rotate_molecule_zyx_random(mol)
+        ! Note: random_seed() must be called once before calling this function!
+        ! Note: the sequence is important! 
+        ! Rotate in different sequences will result in different results,
+        ! even if the angles corresponding to each axes are not changed.
+        use quaternion_module
+        use vector_operation_module
+        implicit none
+        type(molecule), intent(inout) :: mol
+        real(kind=8), dimension(3) :: rand_angle
+        integer(kind=4) :: i
+
+        call random_number(rand_angle)
+        rand_angle = rand_angle * 2 * pi
+        do i = 1, mol%num_atoms
+            mol%atom_coords(:, i) = vector_rotate_by_x( &
+                                    vector_rotate_by_y( &
+                                    vector_rotate_by_z( mol%atom_coords(:, i), rand_angle(3)), &
+                                                                               rand_angle(2)), &
+                                                                               rand_angle(1))
+        end do
+
+        return
+    end subroutine rotate_molecule_zyx_random
+
     subroutine translate_molecule(mol, trans_x, trans_y, trans_z)
         implicit none
         type(molecule), intent(inout) :: mol

@@ -2,4 +2,7 @@
 *.o
 *.exe
 traj.xyz
+*.bmp
+*.png
+*.gif
 *test*

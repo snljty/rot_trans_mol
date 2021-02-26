@@ -67,7 +67,7 @@ program main
         max_gene = 100
     end if
 
-    ! something likes "call random_seed()"
+    ! something like "call random_seed()"
     call random_init_seed()
 
     call cpu_time(time_start)
@@ -96,7 +96,8 @@ program main
     tried = 0
     loop_rotate: do num_gene = 1, max_gene
         mol_tmp = mol_in
-        call rotate_molecule_random(mol_tmp)
+        ! call rotate_molecule_random(mol_tmp)
+        call rotate_molecule_zyx_random(mol_tmp)
         ! rotate once, then translate randomly until suits the threshold condition.
         loop_translate: do while(.true.)
             mol_out = mol_tmp
