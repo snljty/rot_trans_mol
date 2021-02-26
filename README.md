@@ -1,9 +1,9 @@
 # rot_trans_mol: Rotate and translate a molecule.
 
-    The rotation is implemented using a quaternion. For details about quaternion, please use Wikipedia or so on.
+    The author did not come up with an algorithm that can perform a uniform random rotation.
+    Right now a simple but imperfect algorithm is implied, which is not the quaternion method.
 
-    With this algorithm, one can have a random rotation on a molecule within 3 free-degrees.
-    This algorithm is proved to be uniformly distributed.
+    The rotation implemented using a quaternion:
 
     For a vector = (x1, y1, z1), let a quaternion q1 be (0, x1, y1, z1).
 
