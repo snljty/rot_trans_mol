@@ -1,8 +1,9 @@
 *.mod
 *.o
 *.exe
+*.x
 traj.xyz
 *.bmp
 *.png
-*.gif
 *test*
+
