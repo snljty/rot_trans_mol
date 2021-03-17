@@ -101,7 +101,7 @@ module molecule_module
 
     function read_xyz(filename)
         implicit none
-        character(kind=1,len=256), intent(in) :: filename
+        character(kind=1,len=*), intent(in) :: filename
         integer(kind=4) :: read_file_status
         character(kind=1,len=256) :: buf
         type(molecule) :: read_xyz

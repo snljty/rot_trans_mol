@@ -1,9 +1,12 @@
 # rot_trans_mol: Rotate and translate a molecule.
 
-    The author did not come up with an algorithm that can perform a uniform random rotation.
-    Right now a simple but imperfect algorithm is implied, which is not the quaternion method.
+    This package provides multiple methods to rotate or translate (the later is ordinary).
+    It can uniformly as well as randomly rotate a molecule in three-dimensional space.
 
-    The rotation implemented using a quaternion:
+    This program is part of a task, so a executable file with functions a little wider than
+    just rotation and translation is provided. But you can just use other files except rand_rot_trans.f90.
+
+    A quaternion method may be used to perform a rotation, which is described below:
 
     For a vector = (x1, y1, z1), let a quaternion q1 be (0, x1, y1, z1).
 
