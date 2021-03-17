@@ -69,22 +69,22 @@ module molecule_module
            1.61D0, 1.57D0, 1.49D0, 1.43D0, 1.41D0, 1.34D0, &
            1.29D0, 1.28D0, 1.21D0, 1.22D0 /)
     character(kind=1,len=2), parameter :: asym(max_ele) = &
-        (/ 'H ', 'He', 'Li', 'Be', 'B ', 'C ', 'N ', &
-           'O ', 'F ', 'Ne', 'Na', 'Mg', 'Al', 'Si', &
-           'P ', 'S ', 'Cl', 'Ar', 'K ', 'Ca', 'Sc', &
-           'Ti', 'V ', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', &
-           'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', &
-           'Kr', 'Rb', 'Sr', 'Y ', 'Zr', 'Nb', 'Mo', &
-           'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', &
-           'Sn', 'Sb', 'Te', 'I ', 'Xe', 'Cs', 'Ba', &
-           'La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', &
-           'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', &
-           'Lu', 'Hf', 'Ta', 'W ', 'Re', 'Os', 'Ir', &
-           'Pt', 'Au', 'Hg', 'Tl', 'Pb', 'Bi', 'Po', &
-           'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Th', 'Pa', &
-           'U ', 'Np', 'Pu', 'Am', 'Cm', 'Bk', 'Cf', &
-           'Es', 'Fm', 'Md', 'No', 'Lr', 'Rf', 'Db', &
-           'Sg', 'Bh', 'Hs', 'Mt', 'Ds', 'Rg', 'Cn' /)
+        (/ "H ", "He", "Li", "Be", "B ", "C ", "N ", &
+           "O ", "F ", "Ne", "Na", "Mg", "Al", "Si", &
+           "P ", "S ", "Cl", "Ar", "K ", "Ca", "Sc", &
+           "Ti", "V ", "Cr", "Mn", "Fe", "Co", "Ni", &
+           "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", &
+           "Kr", "Rb", "Sr", "Y ", "Zr", "Nb", "Mo", &
+           "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", &
+           "Sn", "Sb", "Te", "I ", "Xe", "Cs", "Ba", &
+           "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", &
+           "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", &
+           "Lu", "Hf", "Ta", "W ", "Re", "Os", "Ir", &
+           "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", &
+           "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", &
+           "U ", "Np", "Pu", "Am", "Cm", "Bk", "Cf", &
+           "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", &
+           "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn" /)
 
     type :: molecule
         integer(kind=4) :: num_atoms
@@ -108,23 +108,23 @@ module molecule_module
         integer(kind=4) :: i
         integer(kind=4), parameter :: num_coords = 3
 
-        open(10, file = trim(filename), position = 'rewind', status = 'old', &
-             access = 'sequential', form = 'formatted', action = 'read', iostat = read_file_status)
-        if (read_file_status .ne. 0) then
-            write(*, '(a)') 'File ''' // trim(filename) // ''' not found!'
-            stop 'File not found!'
+        open(10, file = trim(filename), position = "rewind", status = "old", &
+             access = "sequential", form = "formatted", action = "read", iostat = read_file_status)
+        if (read_file_status /= 0) then
+            write(*, "(a)") "File """ // trim(filename) // """ not found!"
+            stop "File not found!"
         end if
 
         ! num_atoms
-        read(10, '(a)') buf
+        read(10, "(a)") buf
         read(buf, *) read_xyz%num_atoms
         ! title
-        read(10, '(a)') read_xyz%title
+        read(10, "(a)") read_xyz%title
         ! atom_names and atom_coords
         allocate(read_xyz%atom_names(read_xyz%num_atoms))
         allocate(read_xyz%atom_coords(num_coords, read_xyz%num_atoms))
         do i = 1, read_xyz%num_atoms
-            read(10, '(a)') buf
+            read(10, "(a)") buf
             read(buf, *) read_xyz%atom_names(i), read_xyz%atom_coords(:, i)
         end do
         close(10)
@@ -140,11 +140,11 @@ module molecule_module
         integer(kind=4) :: i
         character(kind=1,len=10) :: tmp_str
 
-        write(tmp_str, '(i10)') mol%num_atoms
-        write(file_unit, '(a)') trim(adjustl(tmp_str))
-        write(file_unit, '(a)') trim(mol%title)
+        write(tmp_str, "(i10)") mol%num_atoms
+        write(file_unit, "(a)") trim(adjustl(tmp_str))
+        write(file_unit, "(a)") trim(mol%title)
         do i = 1,mol%num_atoms
-            write(file_unit, '(1x,a3,12x,3(2x,f12.8))') mol%atom_names(i), mol%atom_coords(:, i)
+            write(file_unit, "(1x,a3,12x,3(2x,f12.8))") mol%atom_names(i), mol%atom_coords(:, i)
         end do
 
         return
@@ -155,7 +155,7 @@ module molecule_module
         type(molecule), intent(inout) :: mol
 
         mol%num_atoms = 0
-        mol%title = ''
+        mol%title = ""
         if (allocated(mol%atom_names)) deallocate(mol%atom_names)
         if (allocated(mol%atom_coords)) deallocate(mol%atom_coords)
         return
@@ -168,7 +168,7 @@ module molecule_module
         integer(kind=4), parameter :: num_coords = 3
 
         if (.not. allocated(mol_new%atom_names) .or. &
-           (mol_new%num_atoms .ne. mol_old%num_atoms)) then
+           (mol_new%num_atoms /= mol_old%num_atoms)) then
             call destroy_molecule(mol_new)
             mol_new%num_atoms = mol_old%num_atoms
             allocate(mol_new%atom_names(mol_new%num_atoms))
@@ -177,7 +177,7 @@ module molecule_module
             mol_new%atom_names = mol_old%atom_names
         else
             ! here does nothing, if you want to completely duplicate the molecule, 
-            ! use 'duplicate_molecule_full_info' instead. 
+            ! use "duplicate_molecule_full_info" instead. 
             ! mol_new%title = trim(mol_old%title)
             ! mol_new%atom_names = mol_old%atom_names
             continue
@@ -227,21 +227,21 @@ module molecule_module
 
     subroutine rotate_molecule_random(mol)
         ! Note: random_seed() must be called once before calling this function!
-        use quaternion_module
+        use vector_operation_module
         implicit none
         type(molecule), intent(inout) :: mol
+        real(kind=8), dimension(3, 3) :: rot_matrix
         integer(kind=4) :: i
-        type(quaternion) :: r
 
-        r = quaternion_random_rotator()
+        rot_matrix = vector_rotate_random_matrix()
         do i = 1, mol%num_atoms
-            call rotate_vector(mol%atom_coords(:, i), r)
+            mol%atom_coords(:, i) = matmul(rot_matrix, mol%atom_coords(:, i))
         end do
 
         return
     end subroutine rotate_molecule_random
 
-    subroutine rotate_molecule_zyx(mol, rot_x, rot_y, rot_z)
+    subroutine rotate_molecule_xyz(mol, rot_x, rot_y, rot_z)
         ! Note: the sequence is important! 
         ! Rotate in different sequences will result in different results,
         ! even if the angles corresponding to each axes are not changed.
@@ -253,40 +253,12 @@ module molecule_module
         integer(kind=4) :: i
 
         do i = 1, mol%num_atoms
-            mol%atom_coords(:, i) = vector_rotate_by_x( &
-                                    vector_rotate_by_y( &
-                                    vector_rotate_by_z( mol%atom_coords(:, i), rot_z), &
-                                                                               rot_y), &
-                                                                               rot_x)
+            mol%atom_coords(:, i) = matmul(vector_rotate_xyz_matrix(rot_x, rot_y, rot_z), &
+                mol%atom_coords(:, i))
         end do
 
         return
-    end subroutine rotate_molecule_zyx
-
-    subroutine rotate_molecule_zyx_random(mol)
-        ! Note: random_seed() must be called once before calling this function!
-        ! Note: the sequence is important! 
-        ! Rotate in different sequences will result in different results,
-        ! even if the angles corresponding to each axes are not changed.
-        use quaternion_module
-        use vector_operation_module
-        implicit none
-        type(molecule), intent(inout) :: mol
-        real(kind=8), dimension(3) :: rand_angle
-        integer(kind=4) :: i
-
-        call random_number(rand_angle)
-        rand_angle = rand_angle * 2 * pi
-        do i = 1, mol%num_atoms
-            mol%atom_coords(:, i) = vector_rotate_by_x( &
-                                    vector_rotate_by_y( &
-                                    vector_rotate_by_z( mol%atom_coords(:, i), rand_angle(3)), &
-                                                                               rand_angle(2)), &
-                                                                               rand_angle(1))
-        end do
-
-        return
-    end subroutine rotate_molecule_zyx_random
+    end subroutine rotate_molecule_xyz
 
     subroutine translate_molecule(mol, trans_x, trans_y, trans_z)
         implicit none
@@ -309,7 +281,7 @@ module molecule_module
         real(kind=8) :: trans(3)
         integer(kind=4) :: i
 
-        trans = sum(mol%atom_coords, 2) / mol%num_atoms
+        trans = sum(mol%atom_coords, dim = 2) / mol%num_atoms
         do i = 1, mol%num_atoms
             mol%atom_coords(:, i) = mol%atom_coords(:, i) - trans
         end do
@@ -366,7 +338,7 @@ module molecule_module
         loop_i: do i = 1, mol1%num_atoms
             loop_j: do j = 1, mol2%num_atoms
                 tmp_distance = vector_distance(mol1%atom_coords(:, i), mol2%atom_coords(:, j))
-                if (tmp_distance .lt. get_minimal_distance) then
+                if (tmp_distance < get_minimal_distance) then
                     get_minimal_distance = tmp_distance
                 end if
             end do loop_j
@@ -374,6 +346,33 @@ module molecule_module
 
         return
     end function get_minimal_distance
+
+    ! get the mininal distance between atoms in each molecule.
+    ! using the function from "rand_rot_trans.f90" may be time-consuming, hence 
+    ! a new impliment is given here.
+    function check_minimal_distance_acceptable(mol1, mol2, lower_thres, higher_thres)
+        implicit none
+        type(molecule), intent(in) :: mol1, mol2
+        real(kind=8), intent(in) :: lower_thres, higher_thres
+        logical(kind=1) :: check_minimal_distance_acceptable
+        integer(kind=4) :: i, j
+        real(kind=8) :: curr_dist, min_dist
+
+        check_minimal_distance_acceptable = .false.
+        min_dist = dsqrt(sum((mol1%atom_coords(:, 1) - mol2%atom_coords(:, 1)) ** 2))
+        do i = 1, mol1%num_atoms
+            do j = 1, mol2%num_atoms
+                curr_dist = dsqrt(sum((mol1%atom_coords(:, i) - mol2%atom_coords(:, j)) ** 2))
+                if (curr_dist <= min_dist) then
+                    min_dist = curr_dist
+                    if (min_dist < lower_thres) return
+                end if
+            end do
+        end do
+        if ((min_dist < lower_thres) .or. (min_dist > higher_thres)) return
+        check_minimal_distance_acceptable = .true.
+        return
+    end function check_minimal_distance_acceptable
 
 end module molecule_module
 

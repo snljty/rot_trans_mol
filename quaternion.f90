@@ -1,8 +1,6 @@
 module quaternion_module
     implicit none
 
-    real(kind=8), parameter :: pi = 3.14159265358979323846264
-
     type :: quaternion
         real(kind=8) :: re
         real(kind=8) :: im(3)
@@ -34,7 +32,7 @@ module quaternion_module
         if (present(form)) then
             actual_form = form
         else
-            actual_form = '(4(1x,f10.6))'
+            actual_form = "(4(1x,f10.6))"
         end if
         if (.not. present(file_unit)) then
             actual_file_unit = 6
@@ -152,6 +150,7 @@ module quaternion_module
 
     type(quaternion) function quaternion_random_rotator()
         ! Note: random_seed() must be called once before calling this function!
+        use constant_module
         use vector_operation_module
         implicit none
         real(kind=8) :: t
