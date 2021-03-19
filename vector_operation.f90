@@ -1,11 +1,24 @@
 module vector_operation_module
     implicit none
 
+    interface operator(.dot.)
+        module procedure vector_3d_dot_multiply
+    end interface operator(.dot.)
+
     interface operator(.cross.)
         module procedure vector_cross_multiply
     end interface operator(.cross.)
 
     contains
+
+    function vector_3d_dot_multiply(a, b)
+        implicit none
+        real(kind=8), dimension(3), intent(in) :: a, b
+        real(kind=8) :: vector_3d_dot_multiply
+
+        vector_3d_dot_multiply = sum(a * b)
+        return
+    end function vector_3d_dot_multiply
 
     function vector_cross_multiply(a, b) result(ret)
         implicit none
@@ -41,7 +54,7 @@ module vector_operation_module
         return
     end function vector_random_normal
 
-    function vector_rotate_by_x_matrix(theta) result(m)
+    function matrix_rotate_by_x(theta) result(m)
         implicit none
         real(kind=8), intent(in) :: theta
         real(kind=8), dimension(3, 3) :: m
@@ -56,9 +69,9 @@ module vector_operation_module
                       0.0D0,   - s,     c/), (/3, 3/))
 
         return
-    end function vector_rotate_by_x_matrix
+    end function matrix_rotate_by_x
 
-    function vector_rotate_by_y_matrix(theta) result(m)
+    function matrix_rotate_by_y(theta) result(m)
         implicit none
         real(kind=8), intent(in) :: theta
         real(kind=8), dimension(3, 3) :: m
@@ -72,9 +85,9 @@ module vector_operation_module
                           s, 0.0D0,     c/), (/3, 3/))
 
         return
-    end function vector_rotate_by_y_matrix
+    end function matrix_rotate_by_y
 
-    function vector_rotate_by_z_matrix(theta) result(m)
+    function matrix_rotate_by_z(theta) result(m)
         implicit none
         real(kind=8), intent(in) :: theta
         real(kind=8), dimension(3, 3) :: m
@@ -88,9 +101,9 @@ module vector_operation_module
                       0.0D0, 0.0D0, 1.0D0/), (/3, 3/))
 
         return
-    end function vector_rotate_by_z_matrix
+    end function matrix_rotate_by_z
 
-    function vector_rotate_xyz_matrix(roll, pitch, yaw) result(m)
+    function matrix_rotate_xyz(roll, pitch, yaw) result(m)
         ! rotate around x, then around y, finally around z.
         ! it equals R_z @ R_y @ R_x @ v
         implicit none
@@ -111,9 +124,9 @@ module vector_operation_module
                     (/3, 3/))
 
         return
-    end function vector_rotate_xyz_matrix
+    end function matrix_rotate_xyz
 
-    function vector_rotate_random_matrix() result(m)
+    function matrix_rotate_random() result(m)
         ! Note: random_seed() must be called once before calling this function!
         use constant_module
         implicit none
@@ -138,7 +151,18 @@ module vector_operation_module
         m(:, 3) = m(:, 1) .cross. m(:, 2)       
 
         return
-    end function vector_rotate_random_matrix
+    end function matrix_rotate_random
+
+    function vector_3d_distance(vec1, vec2)
+        implicit none
+        real(kind=8), dimension(3), intent(in) :: vec1
+        real(kind=8), dimension(3), intent(in) :: vec2
+        real(kind=8) :: vector_3d_distance
+
+        vector_3d_distance = dsqrt(sum((vec1 - vec2) ** 2))
+
+        return
+    end function vector_3d_distance
 
 end module vector_operation_module
 

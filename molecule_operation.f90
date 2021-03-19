@@ -6,91 +6,91 @@ module molecule_module
     integer(kind=4), parameter :: max_ele = 112
     real(kind=8), parameter :: amas(max_ele) = &
         (/  1.008D0,   4.003D0,   6.941D0,   9.012D0,  10.811D0, &
-           12.011D0,  14.007D0,  15.999D0,  18.998D0,  20.180D0, &
-           22.990D0,  24.305D0,  26.982D0,  28.086D0,  30.974D0, &
-           32.066D0,  35.453D0,  39.948D0,  39.098D0,  40.078D0, &
-           44.956D0,  47.867D0,  50.942D0,  51.996D0,  54.938D0, &
-           55.845D0,  58.933D0,  58.693D0,  63.546D0,  65.380D0, &
-           69.723D0,  72.630D0,  74.922D0,  78.971D0,  79.904D0, &
-           83.798D0,  85.468D0,  87.620D0,  88.906D0,  91.224D0, &
-           92.906D0,  95.950D0,  98.906D0, 101.070D0, 102.910D0, &
-          106.420D0, 107.870D0, 112.410D0, 114.820D0, 118.710D0, &
-          121.760D0, 127.600D0, 126.900D0, 131.290D0, 132.910D0, &
-          137.330D0, 138.910D0, 140.120D0, 140.910D0, 144.240D0, &
-          144.913D0, 150.360D0, 151.960D0, 157.250D0, 158.930D0, &
-          162.500D0, 164.930D0, 167.260D0, 168.930D0, 173.050D0, &
-          174.970D0, 178.490D0, 180.950D0, 183.840D0, 186.210D0, &
-          190.230D0, 192.220D0, 195.080D0, 196.970D0, 200.590D0, &
-          204.383D0, 207.200D0, 208.980D0, 208.982D0, 209.987D0, &
-          222.017D0, 223.020D0, 226.025D0, 227.027D0, 232.038D0, &
-          231.036D0, 238.029D0, 237.048D0, 244.064D0, 243.061D0, &
-          247.070D0, 247.070D0, 251.080D0, 252.083D0, 257.095D0, &
-          258.098D0, 259.101D0, 262.110D0, 267.122D0, 270.131D0, &
-          269.129D0, 270.133D0, 270.134D0, 278.156D0, 281.165D0, &
-          281.166D0, 285.177D0 /)
+             12.011D0,  14.007D0,  15.999D0,  18.998D0,  20.180D0, &
+             22.990D0,  24.305D0,  26.982D0,  28.086D0,  30.974D0, &
+             32.066D0,  35.453D0,  39.948D0,  39.098D0,  40.078D0, &
+             44.956D0,  47.867D0,  50.942D0,  51.996D0,  54.938D0, &
+             55.845D0,  58.933D0,  58.693D0,  63.546D0,  65.380D0, &
+             69.723D0,  72.630D0,  74.922D0,  78.971D0,  79.904D0, &
+             83.798D0,  85.468D0,  87.620D0,  88.906D0,  91.224D0, &
+             92.906D0,  95.950D0,  98.906D0, 101.070D0, 102.910D0, &
+            106.420D0, 107.870D0, 112.410D0, 114.820D0, 118.710D0, &
+            121.760D0, 127.600D0, 126.900D0, 131.290D0, 132.910D0, &
+            137.330D0, 138.910D0, 140.120D0, 140.910D0, 144.240D0, &
+            144.913D0, 150.360D0, 151.960D0, 157.250D0, 158.930D0, &
+            162.500D0, 164.930D0, 167.260D0, 168.930D0, 173.050D0, &
+            174.970D0, 178.490D0, 180.950D0, 183.840D0, 186.210D0, &
+            190.230D0, 192.220D0, 195.080D0, 196.970D0, 200.590D0, &
+            204.383D0, 207.200D0, 208.980D0, 208.982D0, 209.987D0, &
+            222.017D0, 223.020D0, 226.025D0, 227.027D0, 232.038D0, &
+            231.036D0, 238.029D0, 237.048D0, 244.064D0, 243.061D0, &
+            247.070D0, 247.070D0, 251.080D0, 252.083D0, 257.095D0, &
+            258.098D0, 259.101D0, 262.110D0, 267.122D0, 270.131D0, &
+            269.129D0, 270.133D0, 270.134D0, 278.156D0, 281.165D0, &
+            281.166D0, 285.177D0 /)
     real(kind=8), parameter :: vrad(max_ele) = &
         (/ 1.20D0, 1.43D0, 2.12D0, 1.98D0, 1.91D0, 1.77D0, &
-           1.66D0, 1.50D0, 1.46D0, 1.58D0, 2.50D0, 2.51D0, &
-           2.25D0, 2.19D0, 1.90D0, 1.89D0, 1.82D0, 1.83D0, &
-           2.73D0, 2.62D0, 2.58D0, 2.46D0, 2.42D0, 2.45D0, &
-           2.45D0, 2.44D0, 2.40D0, 2.40D0, 2.38D0, 2.39D0, &
-           2.32D0, 2.29D0, 1.88D0, 1.82D0, 1.86D0, 2.25D0, &
-           3.21D0, 2.84D0, 2.75D0, 2.52D0, 2.56D0, 2.45D0, &
-           2.44D0, 2.46D0, 2.44D0, 2.15D0, 2.53D0, 2.49D0, &
-           2.43D0, 2.42D0, 2.47D0, 1.99D0, 2.04D0, 2.06D0, &
-           3.48D0, 3.03D0, 2.98D0, 2.88D0, 2.92D0, 2.95D0, &
-           0.00D0, 2.90D0, 2.87D0, 2.83D0, 2.79D0, 2.87D0, &
-           2.81D0, 2.83D0, 2.79D0, 2.80D0, 2.74D0, 2.63D0, &
-           2.53D0, 2.57D0, 2.49D0, 2.48D0, 2.41D0, 2.29D0, &
-           2.32D0, 2.45D0, 2.47D0, 2.60D0, 2.54D0, 0.00D0, &
-           0.00D0, 0.00D0, 0.00D0, 0.00D0, 2.80D0, 2.93D0, &
-           2.88D0, 2.71D0, 2.82D0, 2.81D0, 2.83D0, 3.05D0, &
-           3.40D0, 3.05D0, 2.70D0, 0.00D0, 0.00D0, 0.00D0, &
-           0.00D0, 0.00D0, 0.00D0, 0.00D0, 0.00D0, 0.00D0, &
-           0.00D0, 0.00D0, 0.00D0, 0.00D0 /)
+             1.66D0, 1.50D0, 1.46D0, 1.58D0, 2.50D0, 2.51D0, &
+             2.25D0, 2.19D0, 1.90D0, 1.89D0, 1.82D0, 1.83D0, &
+             2.73D0, 2.62D0, 2.58D0, 2.46D0, 2.42D0, 2.45D0, &
+             2.45D0, 2.44D0, 2.40D0, 2.40D0, 2.38D0, 2.39D0, &
+             2.32D0, 2.29D0, 1.88D0, 1.82D0, 1.86D0, 2.25D0, &
+             3.21D0, 2.84D0, 2.75D0, 2.52D0, 2.56D0, 2.45D0, &
+             2.44D0, 2.46D0, 2.44D0, 2.15D0, 2.53D0, 2.49D0, &
+             2.43D0, 2.42D0, 2.47D0, 1.99D0, 2.04D0, 2.06D0, &
+             3.48D0, 3.03D0, 2.98D0, 2.88D0, 2.92D0, 2.95D0, &
+             0.00D0, 2.90D0, 2.87D0, 2.83D0, 2.79D0, 2.87D0, &
+             2.81D0, 2.83D0, 2.79D0, 2.80D0, 2.74D0, 2.63D0, &
+             2.53D0, 2.57D0, 2.49D0, 2.48D0, 2.41D0, 2.29D0, &
+             2.32D0, 2.45D0, 2.47D0, 2.60D0, 2.54D0, 0.00D0, &
+             0.00D0, 0.00D0, 0.00D0, 0.00D0, 2.80D0, 2.93D0, &
+             2.88D0, 2.71D0, 2.82D0, 2.81D0, 2.83D0, 3.05D0, &
+             3.40D0, 3.05D0, 2.70D0, 0.00D0, 0.00D0, 0.00D0, &
+             0.00D0, 0.00D0, 0.00D0, 0.00D0, 0.00D0, 0.00D0, &
+             0.00D0, 0.00D0, 0.00D0, 0.00D0 /)
     real(kind=8), parameter :: crad(max_ele) = &
         (/ 0.31D0, 0.28D0, 1.28D0, 0.96D0, 0.84D0, 0.76D0, &
-           0.71D0, 0.66D0, 0.57D0, 0.58D0, 1.66D0, 1.41D0, &
-           1.21D0, 1.11D0, 1.07D0, 1.05D0, 1.02D0, 1.06D0, &
-           2.03D0, 1.76D0, 1.70D0, 1.60D0, 1.53D0, 1.39D0, &
-           1.39D0, 1.32D0, 1.26D0, 1.24D0, 1.32D0, 1.22D0, &
-           1.22D0, 1.20D0, 1.19D0, 1.20D0, 1.20D0, 1.16D0, &
-           2.20D0, 1.95D0, 1.90D0, 1.75D0, 1.64D0, 1.54D0, &
-           1.47D0, 1.46D0, 1.42D0, 1.39D0, 1.45D0, 1.44D0, &
-           1.42D0, 1.39D0, 1.39D0, 1.38D0, 1.39D0, 1.40D0, &
-           2.44D0, 2.15D0, 2.07D0, 2.04D0, 2.03D0, 2.01D0, &
-           1.99D0, 1.98D0, 1.98D0, 1.96D0, 1.94D0, 1.92D0, &
-           1.92D0, 1.89D0, 1.90D0, 1.87D0, 1.87D0, 1.75D0, &
-           1.70D0, 1.62D0, 1.51D0, 1.44D0, 1.41D0, 1.36D0, &
-           1.36D0, 1.32D0, 1.45D0, 1.46D0, 1.48D0, 1.40D0, &
-           1.50D0, 1.50D0, 2.60D0, 2.21D0, 2.15D0, 2.06D0, &
-           2.00D0, 1.96D0, 1.90D0, 1.87D0, 1.80D0, 1.69D0, &
-           1.68D0, 1.68D0, 1.65D0, 1.67D0, 1.73D0, 1.76D0, &
-           1.61D0, 1.57D0, 1.49D0, 1.43D0, 1.41D0, 1.34D0, &
-           1.29D0, 1.28D0, 1.21D0, 1.22D0 /)
+             0.71D0, 0.66D0, 0.57D0, 0.58D0, 1.66D0, 1.41D0, &
+             1.21D0, 1.11D0, 1.07D0, 1.05D0, 1.02D0, 1.06D0, &
+             2.03D0, 1.76D0, 1.70D0, 1.60D0, 1.53D0, 1.39D0, &
+             1.39D0, 1.32D0, 1.26D0, 1.24D0, 1.32D0, 1.22D0, &
+             1.22D0, 1.20D0, 1.19D0, 1.20D0, 1.20D0, 1.16D0, &
+             2.20D0, 1.95D0, 1.90D0, 1.75D0, 1.64D0, 1.54D0, &
+             1.47D0, 1.46D0, 1.42D0, 1.39D0, 1.45D0, 1.44D0, &
+             1.42D0, 1.39D0, 1.39D0, 1.38D0, 1.39D0, 1.40D0, &
+             2.44D0, 2.15D0, 2.07D0, 2.04D0, 2.03D0, 2.01D0, &
+             1.99D0, 1.98D0, 1.98D0, 1.96D0, 1.94D0, 1.92D0, &
+             1.92D0, 1.89D0, 1.90D0, 1.87D0, 1.87D0, 1.75D0, &
+             1.70D0, 1.62D0, 1.51D0, 1.44D0, 1.41D0, 1.36D0, &
+             1.36D0, 1.32D0, 1.45D0, 1.46D0, 1.48D0, 1.40D0, &
+             1.50D0, 1.50D0, 2.60D0, 2.21D0, 2.15D0, 2.06D0, &
+             2.00D0, 1.96D0, 1.90D0, 1.87D0, 1.80D0, 1.69D0, &
+             1.68D0, 1.68D0, 1.65D0, 1.67D0, 1.73D0, 1.76D0, &
+             1.61D0, 1.57D0, 1.49D0, 1.43D0, 1.41D0, 1.34D0, &
+             1.29D0, 1.28D0, 1.21D0, 1.22D0 /)
     character(kind=1,len=2), parameter :: asym(max_ele) = &
         (/ "H ", "He", "Li", "Be", "B ", "C ", "N ", &
-           "O ", "F ", "Ne", "Na", "Mg", "Al", "Si", &
-           "P ", "S ", "Cl", "Ar", "K ", "Ca", "Sc", &
-           "Ti", "V ", "Cr", "Mn", "Fe", "Co", "Ni", &
-           "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", &
-           "Kr", "Rb", "Sr", "Y ", "Zr", "Nb", "Mo", &
-           "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", &
-           "Sn", "Sb", "Te", "I ", "Xe", "Cs", "Ba", &
-           "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", &
-           "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", &
-           "Lu", "Hf", "Ta", "W ", "Re", "Os", "Ir", &
-           "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", &
-           "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", &
-           "U ", "Np", "Pu", "Am", "Cm", "Bk", "Cf", &
-           "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", &
-           "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn" /)
+             "O ", "F ", "Ne", "Na", "Mg", "Al", "Si", &
+             "P ", "S ", "Cl", "Ar", "K ", "Ca", "Sc", &
+             "Ti", "V ", "Cr", "Mn", "Fe", "Co", "Ni", &
+             "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", &
+             "Kr", "Rb", "Sr", "Y ", "Zr", "Nb", "Mo", &
+             "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", &
+             "Sn", "Sb", "Te", "I ", "Xe", "Cs", "Ba", &
+             "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", &
+             "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", &
+             "Lu", "Hf", "Ta", "W ", "Re", "Os", "Ir", &
+             "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", &
+             "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", &
+             "U ", "Np", "Pu", "Am", "Cm", "Bk", "Cf", &
+             "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", &
+             "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn" /)
 
     type :: molecule
         integer(kind=4) :: num_atoms
         character(kind=1,len=256) :: title
         character(kind=1,len=3), allocatable :: atom_names(:)
-        real(kind=8), allocatable :: atom_coords(:,:)
+        real(kind=8), allocatable :: atom_coords(:, :)
     end type molecule
 
     interface assignment(=)
@@ -111,7 +111,7 @@ module molecule_module
         open(10, file = trim(filename), position = "rewind", status = "old", &
              access = "sequential", form = "formatted", action = "read", iostat = read_file_status)
         if (read_file_status /= 0) then
-            write(*, "(a)") "File """ // trim(filename) // """ not found!"
+            write(*, "(a,a,a)") "File """, trim(filename), """ not found!"
             stop "File not found!"
         end if
 
@@ -168,7 +168,7 @@ module molecule_module
         integer(kind=4), parameter :: num_coords = 3
 
         if (.not. allocated(mol_new%atom_names) .or. &
-           (mol_new%num_atoms /= mol_old%num_atoms)) then
+             (mol_new%num_atoms /= mol_old%num_atoms)) then
             call destroy_molecule(mol_new)
             mol_new%num_atoms = mol_old%num_atoms
             allocate(mol_new%atom_names(mol_new%num_atoms))
@@ -233,7 +233,7 @@ module molecule_module
         real(kind=8), dimension(3, 3) :: rot_matrix
         integer(kind=4) :: i
 
-        rot_matrix = vector_rotate_random_matrix()
+        rot_matrix = matrix_rotate_random()
         do i = 1, mol%num_atoms
             mol%atom_coords(:, i) = matmul(rot_matrix, mol%atom_coords(:, i))
         end do
@@ -251,10 +251,11 @@ module molecule_module
         type(molecule), intent(inout) :: mol
         real(kind=8), intent(in) :: rot_x, rot_y, rot_z
         integer(kind=4) :: i
+        real(kind=8), dimension(3, 3) :: rot_matrix
 
+        rot_matrix = matrix_rotate_xyz(rot_x, rot_y, rot_z)
         do i = 1, mol%num_atoms
-            mol%atom_coords(:, i) = matmul(vector_rotate_xyz_matrix(rot_x, rot_y, rot_z), &
-                mol%atom_coords(:, i))
+            mol%atom_coords(:, i) = matmul(rot_matrix, mol%atom_coords(:, i))
         end do
 
         return
@@ -315,29 +316,19 @@ module molecule_module
         return
     end subroutine translate_molecule_random
 
-    function vector_distance(vec1, vec2)
-        implicit none
-        real(kind=8), dimension(3), intent(in) :: vec1
-        real(kind=8), dimension(3), intent(in) :: vec2
-        real(kind=8) :: vector_distance
-
-        vector_distance = dsqrt(sum((vec1 - vec2) ** 2))
-
-        return
-    end function vector_distance
-
     function get_minimal_distance(mol1, mol2)
+        use vector_operation_module
         implicit none
         type(molecule), intent(in) :: mol1, mol2
         real(kind=8) :: get_minimal_distance
         real(kind=8) :: tmp_distance
         integer(kind=4) :: i, j
 
-        get_minimal_distance = vector_distance(mol1%atom_coords(:, 1), mol2%atom_coords(:, 1))
+        get_minimal_distance = vector_3d_distance(mol1%atom_coords(:, 1), mol2%atom_coords(:, 1))
 
         loop_i: do i = 1, mol1%num_atoms
             loop_j: do j = 1, mol2%num_atoms
-                tmp_distance = vector_distance(mol1%atom_coords(:, i), mol2%atom_coords(:, j))
+                tmp_distance = vector_3d_distance(mol1%atom_coords(:, i), mol2%atom_coords(:, j))
                 if (tmp_distance < get_minimal_distance) then
                     get_minimal_distance = tmp_distance
                 end if

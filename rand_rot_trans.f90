@@ -12,11 +12,11 @@ program main
     integer(kind=4) :: arg_status
     character(kind=1,len=256) :: ifile_name, ofile_name
     type(molecule) :: mol_in, mol_out, mol_tmp
-    integer(kind=4) :: write_to_unit
+    integer(kind=4), parameter :: write_to_unit = 11
     integer(kind=4) :: write_file_status
     integer(kind=4) :: num_gene
     integer(kind=4) :: tried
-    integer(kind=4) :: max_gene = 100
+    integer(kind=4) :: max_gene
     real(kind=8) :: time_start, time_end
     ! real(kind=8), parameter :: trans_min_len = 0.0D0, trans_max_len = 8.0D0
     integer(kind=4) :: i, j
@@ -32,11 +32,14 @@ program main
     end if
 
     ! currently only uses the first argument as max_gene.
-    if (argc >= 1) then
+    if (argc > 0) then
         read(argv(1), *) max_gene
     else
         max_gene = 100
     end if
+
+    ! release argv
+    if (argc > 0) deallocate(argv)
 
     ! something like "call random_seed()"
     call random_init_seed()
@@ -55,12 +58,11 @@ program main
     ! write(*, "(A)") "Input file name for writing: "
     ! read(*, "(A)") ofile_name
     ofile_name = "traj.xyz"
-    write_to_unit = 11
     open(write_to_unit, file = trim(ofile_name), status = "replace", &
          access = "sequential", form = "formatted", action = "write", iostat = write_file_status)
 
     if (write_file_status /= 0) then
-        write(*, "(a)") "File """ // trim(ofile_name) // """ cannot be created!"
+        write(*, "(a,a,a)") "File """, trim(ofile_name), """ cannot be created!"
         stop "File cannot be created!"
     end if
 
@@ -88,11 +90,10 @@ program main
     close(write_to_unit)
 
     call destroy_molecule(mol_in)
+    call destroy_molecule(mol_tmp)
     call destroy_molecule(mol_out)
 
     call cpu_time(time_end)
-
-    if (argc > 0) deallocate(argv)
 
     write(*, "(a,f8.1,a)") "Time elapsed: ", (time_end - time_start), " s."
 
