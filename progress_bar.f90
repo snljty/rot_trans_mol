@@ -12,7 +12,7 @@ module progress_bar_module
         left_chars = nint(progress * total_chars)
         write(*, "(a,f5.1,a)", advance = "no") "[" // repeat("-", left_chars) &
         // repeat(" ", total_chars - left_chars) // "]        ", &
-        progress * 100.0D0, " %" // char(13)
+        progress * 100.0D0, " %" // achar(Z"0D")
 
         return   
     end subroutine print_progress_bar
