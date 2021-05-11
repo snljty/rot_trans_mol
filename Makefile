@@ -18,7 +18,7 @@ rand_rot_trans: rand_rot_trans.exe
 rand_rot_trans.exe: rand_rot_trans.o molecule_operation.o quaternion.o \
 vector_operation.o progress_bar.o rand_init.o constant.o
 	@echo Linking $@ ...
-	$(FLINKER) -o $@ $^
+	$(FLINKER) -o $@ $^ -static
 
 rand_rot_trans.o: rand_rot_trans.f90 molecule_module.mod \
 quaternion_module.mod progress_bar_module.mod rand_init_module.mod
